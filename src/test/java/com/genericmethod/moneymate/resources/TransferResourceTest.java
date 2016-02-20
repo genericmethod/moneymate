@@ -40,7 +40,7 @@ public class TransferResourceTest {
         Transfer transfer = new Transfer(new BigDecimal(123).setScale(2,BigDecimal.ROUND_UNNECESSARY), Currency.getInstance("EUR"),"1","2");
 
         doNothing().when(transferService).transfer(transfer);
-        assertThat(resources.client().target("/v1/transfers").request().post(Entity.json(transfer)).getStatusInfo()).isEqualTo(Response.Status.OK);
+        assertThat(resources.client().target("/v1/transfers").request().post(Entity.json(transfer)).getStatusInfo()).isEqualTo(Response.Status.NO_CONTENT);
 
         verify(transferService).transfer(transfer);
     }
