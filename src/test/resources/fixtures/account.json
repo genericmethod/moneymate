@@ -1,0 +1,11 @@
+{
+  "id": "1",
+  "user": {
+    "id":"1",
+    "username":"genericmethod",
+    "email":"cfarrugia@gmail.com"
+  },
+  "description":"description",
+  "balance":123.00,
+  "currency":"EUR"
+}

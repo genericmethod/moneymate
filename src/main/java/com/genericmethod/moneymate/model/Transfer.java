@@ -1,33 +1,35 @@
 package com.genericmethod.moneymate.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
+import com.google.common.base.Objects;
+
+import java.math.BigDecimal;
+import java.util.Currency;
 
 public class Transfer {
 
-    public Money amount;
-    public CurrencyUnit currencyUnit;
+    public BigDecimal amount;
+    public Currency currency;
     public String sourceAccountId;
     public String destinationAccountId;
 
     public Transfer() {}
 
-    public Transfer(Money amount, CurrencyUnit currencyUnit, String sourceAccountId, String destinationAccountId) {
+    public Transfer(BigDecimal amount, Currency currency, String sourceAccountId, String destinationAccountId) {
         this.amount = amount;
-        this.currencyUnit = currencyUnit;
+        this.currency = currency;
         this.sourceAccountId = sourceAccountId;
         this.destinationAccountId = destinationAccountId;
     }
 
     @JsonProperty
-    public Money getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
     @JsonProperty
-    public CurrencyUnit getCurrencyUnit() {
-        return currencyUnit;
+    public Currency getCurrency() {
+        return currency;
     }
 
     @JsonProperty
@@ -38,5 +40,23 @@ public class Transfer {
     @JsonProperty
     public String getDestinationAccountId() {
         return destinationAccountId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Transfer that = (Transfer) o;
+
+        return Objects.equal(this.amount, that.amount) &&
+                Objects.equal(this.currency, that.currency) &&
+                Objects.equal(this.sourceAccountId, that.sourceAccountId) &&
+                Objects.equal(this.destinationAccountId, that.destinationAccountId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(amount, currency, sourceAccountId, destinationAccountId);
     }
 }

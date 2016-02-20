@@ -1,6 +1,7 @@
 package com.genericmethod.moneymate.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.UUID;
@@ -42,5 +43,22 @@ public class User {
     @JsonProperty
     public String getEmail() {
         return email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User that = (User) o;
+
+        return Objects.equal(this.id, that.id) &&
+                Objects.equal(this.username, that.username) &&
+                Objects.equal(this.email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, username, email);
     }
 }
