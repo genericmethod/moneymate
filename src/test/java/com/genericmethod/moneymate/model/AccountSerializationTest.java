@@ -16,8 +16,8 @@ public class AccountSerializationTest {
 
     @Test
     public void serializesToJSON() throws Exception {
-        final User user = new User("1", "genericmethod", "cfarrugia@gmail.com");
-        final Account account = new Account("1", user, "description",
+        final User user = new User("1", "vlad", "cfarrugia@gmail.com");
+        final Account account = new Account("1", "vlad", "description",
                 new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
                 Currency.getInstance("EUR"));
 
@@ -30,8 +30,8 @@ public class AccountSerializationTest {
 
     @Test
     public void deserializesFromJSON() throws Exception {
-        final User user = new User("1", "genericmethod", "cfarrugia@gmail.com");
-        final Account account = new Account("1", user, "description",
+        final User user = new User("1", "vlad", "cfarrugia@gmail.com");
+        final Account account = new Account("1", "vlad", "description",
                 new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
                 Currency.getInstance("EUR"));
 

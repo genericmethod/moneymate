@@ -13,7 +13,7 @@ public class UserSerializationTest {
 
     @Test
     public void serializesToJSON() throws Exception {
-        final User user = new User("1", "genericmethod", "cfarrugia@gmail.com");
+        final User user = new User("1", "vlad", "vlad@gmail.com");
 
         final String expected = MAPPER.writeValueAsString(
                 MAPPER.readValue(fixture("fixtures/user.json"), User.class));
@@ -23,7 +23,7 @@ public class UserSerializationTest {
 
     @Test
     public void deserializesFromJSON() throws Exception {
-        final User user = new User("1", "genericmethod", "cfarrugia@gmail.com");
+        final User user = new User("1", "vlad", "vlad@gmail.com");
         assertThat(MAPPER.readValue(fixture("fixtures/user.json"), User.class))
                 .isEqualTo(user);
     }

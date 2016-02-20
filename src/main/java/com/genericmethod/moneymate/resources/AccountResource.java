@@ -1,16 +1,76 @@
 package com.genericmethod.moneymate.resources;
 
-import com.genericmethod.moneymate.model.User;
+import com.codahale.metrics.annotation.Timed;
+import com.genericmethod.moneymate.model.Account;
+import com.genericmethod.moneymate.model.MoneyAmount;
+import com.genericmethod.moneymate.services.AccountService;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
 
-@Path("/accounts")
+@Path("/v1/accounts")
+@Produces(MediaType.APPLICATION_JSON)
 public class AccountResource {
 
-    @GET
-    public User getAccount(@QueryParam("id") String id) {
-        return null;
+    private AccountService accountService;
+
+    public AccountResource(AccountService accountService) {
+        this.accountService = accountService;
     }
+
+    @GET
+    @Timed
+    @Path("/{id}")
+    public Account getAccount(@PathParam("id") String id) {
+        return accountService.getAccount(id);
+    }
+
+    @GET
+    @Timed
+    public List<Account> getAllAccounts() {
+        return accountService.getAllAccounts();
+    }
+
+    @GET
+    @Timed
+    @Path("/{id}/balance")
+    public MoneyAmount getBalance(@PathParam("id") String id) {
+        return accountService.getBalance(id);
+    }
+
+    @POST
+    @Timed
+    public Account createAccount(Account account) {
+        return accountService.createAccount(account);
+    }
+
+    @PUT
+    @Timed
+    @Path("/{id}")
+    public Account updateAccount(@PathParam("id") String id, Account account) {
+        return accountService.updateAccount(account);
+    }
+
+    @DELETE
+    @Timed
+    @Path("/{id}")
+    public void deleteAccount(@PathParam("id") String id) {
+        accountService.deleteAccount(id);
+    }
+
+    @PUT
+    @Timed
+    @Path("/{id}/deposit")
+    public Account deposit(@PathParam("id") String id, MoneyAmount moneyAmount) {
+        return accountService.deposit(moneyAmount);
+    }
+
+    @PUT
+    @Timed
+    @Path("/{id}/withdraw")
+    public Account withdraw(@PathParam("id") String id, MoneyAmount moneyAmount) {
+        return accountService.withdraw(moneyAmount);
+    }
+
 }

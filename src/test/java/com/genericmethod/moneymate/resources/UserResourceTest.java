@@ -63,7 +63,7 @@ public class UserResourceTest {
     public void testGetUserAccount(){
 
         Account account = new Account("1",
-                new User("1", "vlad","vlad@gmail.com"),
+                "vlad",
                 "Vlad's Account",
                 new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
                 Currency.getInstance("EUR"));
