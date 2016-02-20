@@ -1,14 +1,17 @@
 package com.genericmethod.moneymate.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
-final public class Transfer {
+public class Transfer {
 
-    final public Money amount;
-    final public CurrencyUnit currencyUnit;
-    final public String sourceAccountId;
-    final public String destinationAccountId;
+    public Money amount;
+    public CurrencyUnit currencyUnit;
+    public String sourceAccountId;
+    public String destinationAccountId;
+
+    public Transfer() {}
 
     public Transfer(Money amount, CurrencyUnit currencyUnit, String sourceAccountId, String destinationAccountId) {
         this.amount = amount;
@@ -17,18 +20,22 @@ final public class Transfer {
         this.destinationAccountId = destinationAccountId;
     }
 
+    @JsonProperty
     public Money getAmount() {
         return amount;
     }
 
+    @JsonProperty
     public CurrencyUnit getCurrencyUnit() {
         return currencyUnit;
     }
 
+    @JsonProperty
     public String getSourceAccountId() {
         return sourceAccountId;
     }
 
+    @JsonProperty
     public String getDestinationAccountId() {
         return destinationAccountId;
     }

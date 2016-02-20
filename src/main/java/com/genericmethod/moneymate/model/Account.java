@@ -1,17 +1,29 @@
 package com.genericmethod.moneymate.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import java.util.UUID;
 
-final public class Account {
+public class Account {
 
-    final private String id;
-    final private User user;
-    final private String description;
-    final private Money balance;
-    final private CurrencyUnit currency;
+    private String id;
+
+    @NotEmpty
+    private User user;
+
+    @NotEmpty
+    private String description;
+
+    @NotEmpty
+    private Money balance;
+
+    @NotEmpty
+    private CurrencyUnit currency;
+
+    public Account() {}
 
     public Account(User user, String description, Money balance, CurrencyUnit currency) {
         this.id = UUID.randomUUID().toString();
@@ -29,18 +41,27 @@ final public class Account {
         this.currency = currency;
     }
 
+    @JsonProperty
+    public String getId() {
+        return id;
+    }
+
+    @JsonProperty
     public User getUser() {
         return user;
     }
 
+    @JsonProperty
     public String getDescription() {
         return description;
     }
 
+    @JsonProperty
     public Money getBalance() {
         return balance;
     }
 
+    @JsonProperty
     public CurrencyUnit getCurrency() {
         return currency;
     }
