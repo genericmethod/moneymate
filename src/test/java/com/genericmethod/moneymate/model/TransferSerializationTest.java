@@ -1,7 +1,6 @@
-package com.genericmethod.moneymate;
+package com.genericmethod.moneymate.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.genericmethod.moneymate.model.Transfer;
 import io.dropwizard.jackson.Jackson;
 import org.junit.Test;
 
