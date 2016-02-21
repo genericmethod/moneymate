@@ -244,37 +244,83 @@ Body
      "id": 2,
      "username": "nik",
      "email": "nik@gmail.com"
-   }
+ }
 ```
 
 ## DELETE  /v1/users/{id}
 
 ##### Example
 ###### Request
+
+DELETE /v1/users/4
+
 ###### Response
 
-## PUT     /v1/users/{id}
+STATUS 204
+
+## PUT /v1/users/{id}
 
 ##### Example
 ###### Request
+
+PUT /v1/users/2
+
+```
+ {
+    "id": 2,
+    "username": "nik",
+    "email": "nik@gmail.com"
+ }
+```
+
 ###### Response
 
-## GET     /v1/users/{username}
+```
+ {
+    "id": 2,
+    "username": "nik",
+    "email": "nik@gmail.com"
+ }
+```
+
+## GET /v1/users/{username}
+
+##### Example
+
+###### Request
+
+GET /v1/users/vlad
+
+###### Response
+
+{
+  "id": 1,
+  "username": "vlad",
+  "email": "vlad@gmail.com"
+}
+
+## GET /v1/users/{username}/account
 
 ##### Example
 ###### Request
+
+GET /v1/users/vlad/account
+
 ###### Response
 
-## GET     /v1/users/{username}/account
-
-##### Example
-###### Request
-###### Response
-
+```
+{
+  "id": 1,
+  "username": "vlad",
+  "description": "salary account",
+  "balance": 888,
+  "currency": "EUR"
+}
+```
 
 #### Transferring Money
 
-## POST    /v1/transfers
+## POST /v1/transfers
 
 ##### Example
 ###### Request

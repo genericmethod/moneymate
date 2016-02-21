@@ -50,13 +50,13 @@ public class UserResource {
         final User user = userDao.getUserByUsername(username);
 
         if(user == null){
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
+            throw new WebApplicationException("user was not found", Response.Status.NOT_FOUND);
         }
 
         final Account userAccount = accountDao.getUserAccount(username);
 
         if (userAccount == null){
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
+            throw new WebApplicationException("account was not found", Response.Status.NOT_FOUND);
         }
 
         return userAccount;
@@ -66,7 +66,7 @@ public class UserResource {
     @Timed
     public User create(@Valid User user) {
         if(userDao.getUserByUsername(user.getUsername()) != null){
-            throw new WebApplicationException("Username is not available", Response.Status.BAD_REQUEST);
+            throw new WebApplicationException("username is not available", Response.Status.BAD_REQUEST);
         }
         final int userId = userDao.createUser(user);
         return userDao.getUserById(userId);

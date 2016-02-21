@@ -2,10 +2,7 @@ package com.genericmethod.moneymate.dao;
 
 import com.genericmethod.moneymate.dao.mapper.UserMapper;
 import com.genericmethod.moneymate.model.User;
-import org.skife.jdbi.v2.sqlobject.Bind;
-import org.skife.jdbi.v2.sqlobject.BindBean;
-import org.skife.jdbi.v2.sqlobject.SqlQuery;
-import org.skife.jdbi.v2.sqlobject.SqlUpdate;
+import org.skife.jdbi.v2.sqlobject.*;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 import java.util.List;
@@ -28,6 +25,7 @@ public interface UserDao {
     List<User> getAllUsers();
 
     @SqlUpdate("INSERT INTO user (username, email) VALUES (:u.username, :u.email)")
+    @GetGeneratedKeys
     int createUser(@BindBean("u") User user);
 
     @SqlUpdate("UPDATE user SET username = :u.username, email = :u.email WHERE id = :u.id")
