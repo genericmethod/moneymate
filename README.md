@@ -1,6 +1,6 @@
 # moneymate
 MoneyMate - A Rest API for money transfers between internal users and accounts.
-Built in Java and Dropwizard. No Spring libraries we're used / abused.
+Built in Java and Dropwizard. No Spring libraries were used / abused.
 
 ## Usage
 
