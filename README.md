@@ -20,6 +20,19 @@ MoneyMate - A Rest API for money transfers between internal users and accounts
 - PUT     /v1/accounts/{username}/withdraw
 - POST    /v1/transfers
 ```
+## Usage
+
+```
+git clone https://github.com/genericmethod/moneymate.git
+```
+
+```
+mvn package
+```
+
+```
+java -jar target/moneymate-api-1.0.0-SNAPSHOT.jar server money-mate.yml
+```
 
 ## Account Resources
 
@@ -366,7 +379,7 @@ GET /v1/users/vlad/account
 }
 ```
 
-#### Transferring Money
+## Transferring Money
 
 ## POST /v1/transfers
 
