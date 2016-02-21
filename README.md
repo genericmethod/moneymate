@@ -1,5 +1,19 @@
 # moneymate
-MoneyMate - A Rest API for money transfers between internal users and accounts
+MoneyMate - A Rest API for money transfers between internal users and accounts.
+Built in Java and Dropwizard. No Spring libraries we're used / abused.
+
+## Usage
+
+```
+git clone https://github.com/genericmethod/moneymate.git
+```
+```
+mvn package
+```
+```
+java -jar target/moneymate-api-1.0.0-SNAPSHOT.jar server money-mate.yml
+```
+
 
 # Endpoints
 
@@ -20,19 +34,7 @@ MoneyMate - A Rest API for money transfers between internal users and accounts
 - PUT     /v1/accounts/{username}/withdraw
 - POST    /v1/transfers
 ```
-## Usage
 
-```
-git clone https://github.com/genericmethod/moneymate.git
-```
-
-```
-mvn package
-```
-
-```
-java -jar target/moneymate-api-1.0.0-SNAPSHOT.jar server money-mate.yml
-```
 
 ## Account Resources
 
