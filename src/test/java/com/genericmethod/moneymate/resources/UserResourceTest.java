@@ -1,16 +1,18 @@
 package com.genericmethod.moneymate.resources;
 
-import com.genericmethod.moneymate.model.Account;
-import com.genericmethod.moneymate.model.User;
 import com.genericmethod.moneymate.dao.AccountDao;
 import com.genericmethod.moneymate.dao.UserDao;
+import com.genericmethod.moneymate.model.Account;
+import com.genericmethod.moneymate.model.User;
 import io.dropwizard.testing.junit.ResourceTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,7 +64,7 @@ public class UserResourceTest {
     }
 
     @Test
-    public void testGetUserAccount(){
+    public void testGetUserAccount() {
 
         Account account = new Account(1,
                 "vlad",
@@ -70,6 +72,9 @@ public class UserResourceTest {
                 new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
                 Currency.getInstance("EUR").getCurrencyCode());
 
+        User newUser = new User("vlad", "cfarrugia@gmail.com");
+
+        when(userDao.getUserByUsername("vlad")).thenReturn(newUser);
         when(accountDao.getUserAccount("vlad")).thenReturn(account);
 
         assertThat(resources.client().target("/v1/users/vlad/account").request().get(Account.class))
@@ -77,10 +82,34 @@ public class UserResourceTest {
     }
 
     @Test
+    public void testGetUserAccountUserNotFound() {
+        when(userDao.getUserByUsername("vlad")).thenReturn(null);
+
+        try {
+            resources.client().target("/v1/users/vlad/account").request().get(Account.class);
+        } catch (WebApplicationException webEx) {
+            assertThat(webEx.getResponse().getStatus()).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
+        }
+    }
+
+    @Test
+    public void testGetUserAccountNotFound() {
+
+        when(userDao.getUserByUsername("vlad")).thenReturn(user1);
+        when(accountDao.getUserAccount("vlad")).thenReturn(null);
+        try {
+            resources.client().target("/v1/users/vlad/account").request().get(Account.class);
+        } catch (WebApplicationException webEx) {
+            assertThat(webEx.getResponse().getStatus()).isEqualTo(Response.Status.NOT_FOUND.getStatusCode());
+        }
+
+    }
+
+    @Test
     public void testCreateUser() {
 
-        User newUser = new User("vlad","cfarrugia@gmail.com");
-        User savedUser = new User(1,"vlad","vlad@gmail.com");
+        User newUser = new User("vlad", "cfarrugia@gmail.com");
+        User savedUser = new User(1, "vlad", "vlad@gmail.com");
 
         when(userDao.createUser(newUser)).thenReturn(1);
         when(userDao.getUserById(1)).thenReturn(savedUser);
@@ -93,9 +122,9 @@ public class UserResourceTest {
     @Test
     public void testUpdateUser() {
 
-        User userToUpdate = new User(1,"vlad", "vlad@gmail.com");
-        when(userDao.updateUser(userToUpdate)).thenReturn(1);
+        User userToUpdate = new User(1, "vlad", "vlad@gmail.com");
         when(userDao.getUserById(1)).thenReturn(userToUpdate);
+        when(userDao.updateUser(userToUpdate)).thenReturn(1);
         assertThat(resources.client().target("/v1/users/1").request().put(Entity.json(userToUpdate))
                 .readEntity(User.class))
                 .isEqualTo(userToUpdate);
@@ -106,10 +135,10 @@ public class UserResourceTest {
     @Test
     public void testDeleteUser() {
 
-        doNothing().when(userDao).deleteUser("vlad");
-        assertThat(resources.client().target("/v1/users/vlad").request().delete().getStatusInfo().getStatusCode())
+        doNothing().when(userDao).deleteUser(1);
+        assertThat(resources.client().target("/v1/users/1").request().delete().getStatusInfo().getStatusCode())
                 .isEqualTo(204);
-        verify(userDao).deleteUser("vlad");
+        verify(userDao).deleteUser(1);
     }
 
 

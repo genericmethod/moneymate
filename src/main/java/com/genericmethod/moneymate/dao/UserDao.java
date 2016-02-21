@@ -18,21 +18,21 @@ public interface UserDao {
             "email varchar(25))")
     void createTable();
 
-    @SqlQuery("SELECT * from user where id = :id")
-    User getUserById(@Bind int id);
+    @SqlQuery("SELECT * FROM user where id = :id")
+    User getUserById(@Bind("id") int id);
 
-    @SqlQuery("SELECT * from user where username = :username")
-    User getUserByUsername(@Bind String username);
+    @SqlQuery("SELECT * FROM user WHERE username = :username")
+    User getUserByUsername(@Bind("username") String username);
 
     @SqlQuery("SELECT * from user")
     List<User> getAllUsers();
 
-    @SqlUpdate("INSERT INTO user (username, email) values (:u.username, :u.email)")
+    @SqlUpdate("INSERT INTO user (username, email) VALUES (:u.username, :u.email)")
     int createUser(@BindBean("u") User user);
 
-    @SqlUpdate("UPDATE user SET id =:u.id, username =:u.username, email = :u.email")
+    @SqlUpdate("UPDATE user SET username = :u.username, email = :u.email WHERE id = :u.id")
     int updateUser(@BindBean("u") User user);
 
-    @SqlUpdate("DELETE user where username")
-    void deleteUser(@Bind String username);
+    @SqlUpdate("DELETE FROM user WHERE id = :id")
+    void deleteUser(@Bind("id") int id);
 }

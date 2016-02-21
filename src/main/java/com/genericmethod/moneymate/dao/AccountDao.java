@@ -20,27 +20,26 @@ public interface AccountDao {
             " balance decimal(20,2))")
     void createTable();
 
-    @SqlQuery("SELECT * FROM account where id = :id")
-    Account getAccount(@Bind int id);
+    @SqlQuery("SELECT * FROM account WHERE id = :id")
+    Account getAccount(@Bind("id") int id);
 
     @SqlQuery("SELECT * FROM account")
     List<Account> getAllAccounts();
 
     @SqlQuery("SELECT * FROM account WHERE username = :username")
-    Account getUserAccount(@Bind String username);
+    Account getUserAccount(@Bind("username") String username);
 
     @SqlUpdate("INSERT INTO account (username, description, currency, balance) " +
             "values (:a.username, :a.description, :a.currency, :a.balance)")
     int createAccount(@BindBean("a") Account account);
 
-    @SqlUpdate("UPDATE account (id = :a.id," +
-            " username = :a.username," +
+    @SqlUpdate("UPDATE account username = :a.username," +
             " description = :a.description," +
             " currency = :a.currency," +
-            " balance = :a.balance)")
+            " balance = :a.balance WHERE id = :a.id")
     int updateAccount(@BindBean("a") Account account);
 
-    @SqlUpdate("DELETE account where username = username")
-    void deleteAccount(String username);
+    @SqlUpdate("DELETE FROM account WHERE username = username")
+    void deleteAccount(@Bind("username") String username);
 
 }
