@@ -2,7 +2,7 @@ package com.genericmethod.moneymate.resources;
 
 import com.genericmethod.moneymate.model.Account;
 import com.genericmethod.moneymate.model.User;
-import com.genericmethod.moneymate.services.UserService;
+import com.genericmethod.moneymate.services.UserDao;
 import io.dropwizard.testing.junit.ResourceTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 
 public class UserResourceTest {
 
-    private static final UserService userService = mock(UserService.class);
+    private static final UserDao userService = mock(UserDao.class);
 
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()

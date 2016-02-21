@@ -3,7 +3,7 @@ package com.genericmethod.moneymate.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.genericmethod.moneymate.model.Account;
 import com.genericmethod.moneymate.model.MoneyAmount;
-import com.genericmethod.moneymate.services.AccountService;
+import com.genericmethod.moneymate.services.AccountDao;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -13,9 +13,9 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountResource {
 
-    private AccountService accountService;
+    private AccountDao accountService;
 
-    public AccountResource(AccountService accountService) {
+    public AccountResource(AccountDao accountService) {
         this.accountService = accountService;
     }
 

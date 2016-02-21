@@ -3,8 +3,9 @@ package com.genericmethod.moneymate.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.genericmethod.moneymate.model.Account;
 import com.genericmethod.moneymate.model.User;
-import com.genericmethod.moneymate.services.UserService;
+import com.genericmethod.moneymate.services.UserDao;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-    private UserService userService;
+    private UserDao userService;
 
-    public UserResource(UserService userService) {
+    public UserResource(UserDao userService) {
         this.userService = userService;
     }
 
@@ -41,14 +42,14 @@ public class UserResource {
 
     @POST
     @Timed
-    public User create(User user) {
+    public User create(@Valid User user) {
         return userService.createUser(user);
     }
 
     @PUT
     @Timed
     @Path("/{id}")
-    public User update(@PathParam("id") String id, User user) {
+    public User update(@PathParam("id") String id, @Valid User user) {
         return userService.updateUser(user);
     }
 
