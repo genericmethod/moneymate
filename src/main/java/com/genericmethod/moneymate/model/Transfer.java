@@ -3,14 +3,22 @@ package com.genericmethod.moneymate.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Currency;
 
 public class Transfer {
 
+    @NotNull
     public BigDecimal amount;
+
+    @NotNull
     public Currency currency;
+
+    @NotNull
     public String sourceAccountId;
+
+    @NotNull
     public String destinationAccountId;
 
     public Transfer() {}

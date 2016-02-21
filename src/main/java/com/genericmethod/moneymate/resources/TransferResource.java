@@ -5,6 +5,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.genericmethod.moneymate.model.Transfer;
 import com.genericmethod.moneymate.services.TransferService;
 
+import javax.validation.Valid;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -22,7 +23,7 @@ public class TransferResource {
 
     @POST
     @Timed
-    public void transfer(Transfer transfer){
+    public void transfer(@Valid Transfer transfer){
         transferService.transfer(transfer);
     }
 
