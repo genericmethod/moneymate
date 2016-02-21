@@ -11,6 +11,7 @@ import org.skife.jdbi.v2.sqlobject.Transaction;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 
 @Path("/v1/transfers")
@@ -20,8 +21,7 @@ public class TransferResource {
     private UserDao userDao;
     private AccountDao accountDao;
 
-    public TransferResource(UserDao userDao,
-                            AccountDao accountDao) {
+    public TransferResource(UserDao userDao, AccountDao accountDao) {
 
         this.userDao = userDao;
         this.accountDao = accountDao;
@@ -36,17 +36,17 @@ public class TransferResource {
         final Account destinationAccount = accountDao.getAccountForUpdate(transfer.getDestinationAccountId());
 
         if (sourceAccount == null) {
-            throw new NotFoundException("source account not found");
+            throw new WebApplicationException("source account not found", Response.Status.EXPECTATION_FAILED);
         }
 
         if (destinationAccount == null) {
-            throw new NotFoundException("destination account not found");
+            throw new WebApplicationException("destination account not found", Response.Status.EXPECTATION_FAILED);
         }
 
         //TODO currencies must match too
 
         if (transfer.getAmount() > sourceAccount.getBalance()){
-            throw new WebApplicationException("not enough funds available for transfer");
+            throw new WebApplicationException("not enough funds available for transfer", Response.Status.EXPECTATION_FAILED);
         }
 
         final BigDecimal newSourceAmount = new BigDecimal(sourceAccount.getBalance()).setScale(2, BigDecimal.ROUND_UNNECESSARY)
