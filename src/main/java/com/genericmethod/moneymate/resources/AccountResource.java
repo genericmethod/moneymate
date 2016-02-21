@@ -66,9 +66,19 @@ public class AccountResource {
     @PUT
     @Timed
     @Path("/{id}")
-    public Account updateAccount(@PathParam("id") Integer id, Account account) {
-        final int accountId = accountDao.updateAccount(account);
-        return accountDao.getAccount(accountId);
+    public Account updateAccount(@PathParam("id") @NotNull Integer id, @Valid Account account) {
+
+        if(id != account.getId()){
+            throw new WebApplicationException(Response.Status.EXPECTATION_FAILED);
+        }
+
+        final Account acc = accountDao.getAccount(id);
+        if (acc == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+
+        accountDao.updateAccount(account);
+        return accountDao.getAccount(id);
     }
 
     @DELETE
@@ -90,15 +100,15 @@ public class AccountResource {
         }
 
         double newBalance = new BigDecimal(account.getBalance()).add(new BigDecimal(moneyAmount.getAmount())).doubleValue();
-        int accountId = accountDao.updateBalance(account.getId(), newBalance);
+        accountDao.updateBalance(account.getId(), newBalance);
 
-        return accountDao.getAccount(accountId);
+        return accountDao.getAccount(account.getId());
     }
 
     @PUT
     @Timed
-    @Path("/{id}/withdraw")
-    public Account withdraw(@PathParam("id") String username, @Valid MoneyAmount moneyAmount) {
+    @Path("/{username}/withdraw")
+    public Account withdraw(@PathParam("username") String username, @Valid MoneyAmount moneyAmount) {
 
         final Account account = accountDao.getUserAccountForUpdate(username, moneyAmount.getCurrency());
 

@@ -22,7 +22,6 @@ public class MoneyMateApplication extends Application<MoneyMateConfiguration> {
         new MoneyMateApplication().run(args);
     }
 
-
     @Override
     public void run(MoneyMateConfiguration moneyMateConfiguration, Environment environment) throws Exception {
 
@@ -51,5 +50,6 @@ public class MoneyMateApplication extends Application<MoneyMateConfiguration> {
         environment.jersey().register(userResource);
         environment.jersey().register(accountResource);
         environment.jersey().register(transferResource);
+
     }
 }

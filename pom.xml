@@ -80,6 +80,7 @@
             <artifactId>assertj-core</artifactId>
             <version>3.3.0</version>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -132,8 +133,6 @@
                     </archive>
                 </configuration>
             </plugin>
-
-
         </plugins>
     </build>
 </project>

@@ -120,7 +120,7 @@ public class AccountResourceTest {
     @Test
     public void testUpdateAccount() {
 
-        Account updatedAccount = new Account("vlad",
+        Account updatedAccount = new Account(1,"vlad",
                 "description",
                 new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").getCurrencyCode());
