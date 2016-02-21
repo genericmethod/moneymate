@@ -2,7 +2,8 @@ package com.genericmethod.moneymate.resources;
 
 import com.genericmethod.moneymate.model.Account;
 import com.genericmethod.moneymate.model.User;
-import com.genericmethod.moneymate.services.UserDao;
+import com.genericmethod.moneymate.dao.AccountDao;
+import com.genericmethod.moneymate.dao.UserDao;
 import io.dropwizard.testing.junit.ResourceTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -21,15 +22,16 @@ import static org.mockito.Mockito.*;
 
 public class UserResourceTest {
 
-    private static final UserDao userService = mock(UserDao.class);
+    private static final UserDao userDao = mock(UserDao.class);
+    private static final AccountDao accountDao = mock(AccountDao.class);
 
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new UserResource(userService))
+            .addResource(new UserResource(userDao, accountDao))
             .build();
 
-    private final User user1 = new User("1", "vlad", "vlad@gmail.com");
-    private final User user2 = new User("2", "nikolay", "nikolay@gmail.com");
+    private final User user1 = new User(1, "vlad", "vlad@gmail.com");
+    private final User user2 = new User(2, "nikolay", "nikolay@gmail.com");
 
     @Before
     public void setup() {
@@ -37,22 +39,22 @@ public class UserResourceTest {
 
     @After
     public void tearDown() {
-        reset(userService);
+        reset(userDao);
     }
 
     @Test
     public void testGetUser() {
-        when(userService.getUserById(eq("vlad"))).thenReturn(user1);
+        when(userDao.getUserByUsername(eq("vlad"))).thenReturn(user1);
         assertThat(resources.client().target("/v1/users/vlad").request().get(User.class))
                 .isEqualTo(user1);
-        verify(userService).getUserById("vlad");
+        verify(userDao).getUserByUsername("vlad");
     }
 
     @Test
     public void testGetAllUsers() {
 
         final List<User> users = Arrays.asList(user1, user2);
-        when(userService.getAllUsers()).thenReturn(users);
+        when(userDao.getAllUsers()).thenReturn(users);
 
         List<User> userList = new ArrayList<>();
         assertThat(resources.client().target("/v1/users").request().get(userList.getClass()).size())
@@ -68,7 +70,7 @@ public class UserResourceTest {
                 new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
                 Currency.getInstance("EUR"));
 
-        when(userService.getUserAccount("vlad")).thenReturn(account);
+        when(accountDao.getUserAccount("vlad")).thenReturn(account);
 
         assertThat(resources.client().target("/v1/users/vlad/account").request().get(Account.class))
                 .isEqualTo(account);
@@ -78,35 +80,35 @@ public class UserResourceTest {
     public void testCreateUser() {
 
         User newUser = new User("vlad","cfarrugia@gmail.com");
-        User savedUser = new User("1","vlad","vlad@gmail.com");
+        User savedUser = new User(1,"vlad","vlad@gmail.com");
 
-        when(userService.createUser(newUser)).thenReturn(savedUser);
+        when(userDao.createUser(newUser)).thenReturn(savedUser);
         assertThat(resources.client().target("/v1/users").request().post(Entity.json(newUser))
                 .readEntity(User.class))
                 .isEqualTo(savedUser);
-        verify(userService).createUser(newUser);
+        verify(userDao).createUser(newUser);
     }
 
     @Test
     public void testUpdateUser() {
 
-        User userToUpdate = new User("1","vlad", "vlad@gmail.com");
-        when(userService.updateUser(userToUpdate)).thenReturn(userToUpdate);
+        User userToUpdate = new User(1,"vlad", "vlad@gmail.com");
+        when(userDao.updateUser(userToUpdate)).thenReturn(userToUpdate);
 
         assertThat(resources.client().target("/v1/users/1").request().put(Entity.json(userToUpdate))
                 .readEntity(User.class))
                 .isEqualTo(userToUpdate);
 
-        verify(userService).updateUser(userToUpdate);
+        verify(userDao).updateUser(userToUpdate);
     }
 
     @Test
     public void testDeleteUser() {
 
-        doNothing().when(userService).deleteUser("vlad");
+        doNothing().when(userDao).deleteUser("vlad");
         assertThat(resources.client().target("/v1/users/vlad").request().delete().getStatusInfo().getStatusCode())
                 .isEqualTo(204);
-        verify(userService).deleteUser("vlad");
+        verify(userDao).deleteUser("vlad");
     }
 
 

@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import java.util.UUID;
-
 public class User {
 
-    private String id;
+    private Integer id;
 
     @NotEmpty
     private String username;
@@ -19,19 +17,18 @@ public class User {
     public User() {}
 
     public User(String username, String email) {
-        this.id = UUID.randomUUID().toString();
         this.username = username;
         this.email = email;
     }
 
-    public User(String id, String username, String email) {
+    public User(Integer id, String username, String email) {
         this.id = id;
         this.username = username;
         this.email = email;
     }
 
     @JsonProperty
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 

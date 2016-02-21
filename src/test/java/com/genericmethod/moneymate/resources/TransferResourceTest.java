@@ -1,7 +1,7 @@
 package com.genericmethod.moneymate.resources;
 
 import com.genericmethod.moneymate.model.Transfer;
-import com.genericmethod.moneymate.services.TransferDao;
+import com.genericmethod.moneymate.dao.TransferDao;
 import io.dropwizard.jersey.validation.ValidationErrorMessage;
 import io.dropwizard.testing.junit.ResourceTestRule;
 import org.junit.*;

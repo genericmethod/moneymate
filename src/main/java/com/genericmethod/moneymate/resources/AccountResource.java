@@ -3,7 +3,7 @@ package com.genericmethod.moneymate.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.genericmethod.moneymate.model.Account;
 import com.genericmethod.moneymate.model.MoneyAmount;
-import com.genericmethod.moneymate.services.AccountDao;
+import com.genericmethod.moneymate.dao.AccountDao;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -36,7 +36,7 @@ public class AccountResource {
     @Timed
     @Path("/{id}/balance")
     public MoneyAmount getBalance(@PathParam("id") String id) {
-        return accountDao.getBalance(id);
+        return new MoneyAmount();
     }
 
     @POST
@@ -63,14 +63,14 @@ public class AccountResource {
     @Timed
     @Path("/{id}/deposit")
     public Account deposit(@PathParam("id") String id, MoneyAmount moneyAmount) {
-        return accountDao.deposit(moneyAmount);
+          return new Account();
     }
 
     @PUT
     @Timed
     @Path("/{id}/withdraw")
     public Account withdraw(@PathParam("id") String id, MoneyAmount moneyAmount) {
-        return accountDao.withdraw(moneyAmount);
+        return new Account();
     }
 
 }

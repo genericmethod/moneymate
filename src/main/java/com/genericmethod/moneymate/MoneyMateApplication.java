@@ -4,8 +4,8 @@ import com.genericmethod.moneymate.config.MoneyMateConfiguration;
 import com.genericmethod.moneymate.resources.AccountResource;
 import com.genericmethod.moneymate.resources.TransferResource;
 import com.genericmethod.moneymate.resources.UserResource;
-import com.genericmethod.moneymate.services.AccountDao;
-import com.genericmethod.moneymate.services.UserDao;
+import com.genericmethod.moneymate.dao.AccountDao;
+import com.genericmethod.moneymate.dao.UserDao;
 import io.dropwizard.Application;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Environment;
@@ -29,8 +29,7 @@ public class MoneyMateApplication extends Application<MoneyMateConfiguration> {
         userDao.createTable();
         accountDao.createTable();
 
-
-        UserResource userResource = new UserResource(userDao);
+        UserResource userResource = new UserResource(userDao, accountDao);
         AccountResource accountResource = new AccountResource(accountDao);
         TransferResource transferResource = new TransferResource();
 

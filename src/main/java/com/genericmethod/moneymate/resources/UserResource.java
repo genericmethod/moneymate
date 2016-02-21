@@ -3,7 +3,8 @@ package com.genericmethod.moneymate.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.genericmethod.moneymate.model.Account;
 import com.genericmethod.moneymate.model.User;
-import com.genericmethod.moneymate.services.UserDao;
+import com.genericmethod.moneymate.dao.AccountDao;
+import com.genericmethod.moneymate.dao.UserDao;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -14,50 +15,52 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-    private UserDao userService;
+    private UserDao userDao;
+    private AccountDao accountDao;
 
-    public UserResource(UserDao userService) {
-        this.userService = userService;
+    public UserResource(UserDao userDao, AccountDao accountDao) {
+        this.userDao = userDao;
+        this.accountDao = accountDao;
     }
 
     @GET
     @Timed
     public List<User> getAll() {
-        return userService.getAllUsers();
+        return userDao.getAllUsers();
     }
 
     @GET
     @Timed
     @Path("/{username}")
     public User get(@PathParam("username") String username) {
-        return userService.getUserById(username);
+        return userDao.getUserByUsername(username);
     }
 
     @GET
     @Timed
     @Path("/{username}/account")
     public Account account(@PathParam("username") String username){
-        return userService.getUserAccount(username);
+        return accountDao.getUserAccount(username);
     }
 
     @POST
     @Timed
     public User create(@Valid User user) {
-        return userService.createUser(user);
+        return userDao.createUser(user);
     }
 
     @PUT
     @Timed
     @Path("/{id}")
     public User update(@PathParam("id") String id, @Valid User user) {
-        return userService.updateUser(user);
+        return userDao.updateUser(user);
     }
 
     @DELETE
     @Timed
     @Path("/{username}")
     public void delete(@PathParam("username") String username) {
-        userService.deleteUser(username);
+        userDao.deleteUser(username);
     }
 
 

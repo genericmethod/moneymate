@@ -1,4 +1,4 @@
-package com.genericmethod.moneymate.services;
+package com.genericmethod.moneymate.dao;
 
 import com.genericmethod.moneymate.model.Transfer;
 
