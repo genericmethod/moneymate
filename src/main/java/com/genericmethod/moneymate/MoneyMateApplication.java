@@ -46,7 +46,7 @@ public class MoneyMateApplication extends Application<MoneyMateConfiguration> {
 
         UserResource userResource = new UserResource(userDao, accountDao);
         AccountResource accountResource = new AccountResource(accountDao);
-        TransferResource transferResource = new TransferResource();
+        TransferResource transferResource = new TransferResource(userDao, accountDao);
 
         environment.jersey().register(userResource);
         environment.jersey().register(accountResource);

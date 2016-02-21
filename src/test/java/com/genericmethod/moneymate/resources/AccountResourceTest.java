@@ -6,6 +6,7 @@ import com.genericmethod.moneymate.model.MoneyAmount;
 import io.dropwizard.testing.junit.ResourceTestRule;
 import org.junit.*;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Entity;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -71,9 +72,25 @@ public class AccountResourceTest {
         MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").getCurrencyCode());
 
+        when(accountDao.getAccount(1)).thenReturn(account1);
+
         assertThat(resources.client().target("/v1/accounts/1/balance").request().get(MoneyAmount.class))
                 .isEqualTo(moneyAmount);
+    }
 
+    @Test
+    public void testGetAccountBalanceAccountNotFound() {
+
+        MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
+
+        when(accountDao.getAccount(1)).thenReturn(null);
+
+        try{
+            resources.client().target("/v1/accounts/1/balance").request().get(MoneyAmount.class);
+        } catch (WebApplicationException webEx) {
+            assertThat(webEx.getResponse().getStatus()).isEqualTo(404);
+        }
     }
 
     @Test

@@ -7,6 +7,7 @@ import com.genericmethod.moneymate.model.MoneyAmount;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,8 +40,14 @@ public class AccountResource {
     @GET
     @Timed
     @Path("/{id}/balance")
-    public MoneyAmount getBalance(@PathParam("id") @NotBlank String id) {
-        return new MoneyAmount();
+    public MoneyAmount getBalance(@PathParam("id") @NotNull Integer id) {
+        final Account account = accountDao.getAccount(id);
+
+        if(account == null){
+            throw new WebApplicationException("account not found",Response.Status.NOT_FOUND);
+        }
+
+        return new MoneyAmount(account.getBalance(),account.getCurrency());
     }
 
     @POST
@@ -76,14 +83,14 @@ public class AccountResource {
     @Path("/{username}/deposit")
     public Account deposit(@PathParam("username") String username, @Valid MoneyAmount moneyAmount) {
 
-        final Account account = accountDao.getUserAccount(username, moneyAmount.getCurrency());
+        final Account account = accountDao.getUserAccountForUpdate(username, moneyAmount.getCurrency());
 
         if (account == null){
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
 
         double newBalance = new BigDecimal(account.getBalance()).add(new BigDecimal(moneyAmount.getAmount())).doubleValue();
-        int accountId = accountDao.updateBalance(newBalance);
+        int accountId = accountDao.updateBalance(account.getId(), newBalance);
 
         return accountDao.getAccount(accountId);
     }
@@ -93,7 +100,7 @@ public class AccountResource {
     @Path("/{id}/withdraw")
     public Account withdraw(@PathParam("id") String username, @Valid MoneyAmount moneyAmount) {
 
-        final Account account = accountDao.getUserAccount(username, moneyAmount.getCurrency());
+        final Account account = accountDao.getUserAccountForUpdate(username, moneyAmount.getCurrency());
 
         if (account == null){
             throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -105,7 +112,7 @@ public class AccountResource {
         }
 
         double newBalance = new BigDecimal(account.getBalance()).subtract(new BigDecimal(moneyAmount.getAmount())).doubleValue();
-        int accountId = accountDao.updateBalance(newBalance);
+        int accountId = accountDao.updateBalance(account.getId(), newBalance);
 
         return accountDao.getAccount(accountId);
     }

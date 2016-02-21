@@ -65,8 +65,8 @@ public class AccountWithdrawTests {
         final MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").getCurrencyCode());
 
-        when(accountDao.getUserAccount("vlad", "EUR")).thenReturn(account);
-        when(accountDao.updateBalance(0.00)).thenReturn(1);
+        when(accountDao.getUserAccountForUpdate("vlad", "EUR")).thenReturn(account);
+        when(accountDao.updateBalance(1, 0.00)).thenReturn(1);
         when(accountDao.getAccount(1)).thenReturn(updatedAccount);
 
         assertThat(resources.client().target("/v1/accounts/vlad/withdraw").request().put(Entity.json(moneyAmount))
@@ -85,8 +85,7 @@ public class AccountWithdrawTests {
         final MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").getCurrencyCode());
 
-        when(accountDao.getUserAccount("vlad", "EUR")).thenReturn(account);
-
+        when(accountDao.getUserAccountForUpdate("vlad", "EUR")).thenReturn(account);
         Response put = resources.client().target("/v1/accounts/vlad/withdraw").request().put(Entity.json(moneyAmount));
         assertThat(put.getStatus()).isEqualTo(417);
     }

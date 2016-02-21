@@ -1,7 +1,10 @@
 package com.genericmethod.moneymate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import io.dropwizard.validation.ValidationMethod;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 
@@ -10,18 +13,18 @@ public class Transfer {
     @NotNull
     public Double amount;
 
-    @NotNull
+    @NotBlank
     public String currency;
 
     @NotNull
-    public String sourceAccountId;
+    public Integer sourceAccountId;
 
     @NotNull
-    public String destinationAccountId;
+    public Integer destinationAccountId;
 
     public Transfer() {}
 
-    public Transfer(Double amount, String currency, String sourceAccountId, String destinationAccountId) {
+    public Transfer(Double amount, String currency, Integer sourceAccountId, Integer destinationAccountId) {
         this.amount = amount;
         this.currency = currency;
         this.sourceAccountId = sourceAccountId;
@@ -39,12 +42,12 @@ public class Transfer {
     }
 
     @JsonProperty
-    public String getSourceAccountId() {
+    public Integer getSourceAccountId() {
         return sourceAccountId;
     }
 
     @JsonProperty
-    public String getDestinationAccountId() {
+    public Integer getDestinationAccountId() {
         return destinationAccountId;
     }
 
@@ -64,5 +67,11 @@ public class Transfer {
     @Override
     public int hashCode() {
         return Objects.hashCode(amount, currency, sourceAccountId, destinationAccountId);
+    }
+
+    @JsonIgnore
+    @ValidationMethod(message = "source account cannot be the same as destination account")
+    public boolean isSourceNotEqualToDestination(){
+        return sourceAccountId != destinationAccountId;
     }
 }

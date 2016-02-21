@@ -19,7 +19,7 @@ public class TransferSerializationTest {
 
         Transfer transfer = new Transfer(new BigDecimal(123).setScale(2,BigDecimal.ROUND_UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").getCurrencyCode()
-                ,"1","2");
+                ,1,2);
         final String expected = MAPPER.writeValueAsString(
                 MAPPER.readValue(fixture("fixtures/transfer.json"), Transfer.class));
 
@@ -30,7 +30,7 @@ public class TransferSerializationTest {
     public void deserializesFromJSON() throws Exception {
         Transfer transfer = new Transfer(new BigDecimal(123).setScale(2,BigDecimal.ROUND_UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").toString(),
-                "1","2");
+                1,2);
         assertThat(MAPPER.readValue(fixture("fixtures/transfer.json"), Transfer.class))
                 .isEqualTo(transfer);
     }
