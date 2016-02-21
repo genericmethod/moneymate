@@ -14,8 +14,6 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class TransferResource {
 
-
-
     @POST
     @Timed
     public void transfer(@Valid Transfer transfer){

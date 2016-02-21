@@ -36,7 +36,8 @@ public class TransferResourceTest {
     @Test
     public void testTransfer() {
 
-        Transfer transfer = new Transfer(new BigDecimal(123).setScale(2, BigDecimal.ROUND_UNNECESSARY), Currency.getInstance("EUR"), "1", "2");
+        Transfer transfer = new Transfer(new BigDecimal(123).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode(), "1", "2");
 
         doNothing().when(transferDao).transfer(transfer);
         assertThat(resources.client().target("/v1/transfers").request().post(Entity.json(transfer)).getStatusInfo()).isEqualTo(Response.Status.NO_CONTENT);
@@ -46,7 +47,8 @@ public class TransferResourceTest {
 
     @Test
     public void testTransferMissingSourceAccount() {
-        Transfer transfer = new Transfer(new BigDecimal(123).setScale(2, BigDecimal.ROUND_UNNECESSARY), Currency.getInstance("EUR"), null, "2");
+        Transfer transfer = new Transfer(new BigDecimal(123).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode(), null, "2");
         final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));
         assertThat(post.getStatus()).isEqualTo(422);
         ValidationErrorMessage msg = post.readEntity(ValidationErrorMessage.class);
@@ -55,7 +57,8 @@ public class TransferResourceTest {
 
     @Test
     public void testTransferMissingDestinationAccount() {
-        Transfer transfer = new Transfer(new BigDecimal(123).setScale(2, BigDecimal.ROUND_UNNECESSARY), Currency.getInstance("EUR"), "1", null);
+        Transfer transfer = new Transfer(new BigDecimal(123).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode(), "1", null);
         final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));
         assertThat(post.getStatus()).isEqualTo(422);
         ValidationErrorMessage msg = post.readEntity(ValidationErrorMessage.class);
@@ -64,7 +67,7 @@ public class TransferResourceTest {
 
     @Test
     public void testTransferMissingAmount() {
-        Transfer transfer = new Transfer(null, Currency.getInstance("EUR"), "1", "2");
+        Transfer transfer = new Transfer(null, Currency.getInstance("EUR").getCurrencyCode(), "1", "2");
         final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));
         assertThat(post.getStatus()).isEqualTo(422);
         ValidationErrorMessage msg = post.readEntity(ValidationErrorMessage.class);
@@ -73,7 +76,7 @@ public class TransferResourceTest {
 
     @Test
     public void testTransferMissingCurrency() {
-        Transfer transfer = new Transfer(new BigDecimal(123).setScale(2, BigDecimal.ROUND_UNNECESSARY), null, "1", "2");
+        Transfer transfer = new Transfer(new BigDecimal(123).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(), null, "1", "2");
         final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));
         assertThat(post.getStatus()).isEqualTo(422);
         ValidationErrorMessage msg = post.readEntity(ValidationErrorMessage.class);

@@ -4,16 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.util.Currency;
 
 public class Transfer {
 
     @NotNull
-    public BigDecimal amount;
+    public Double amount;
 
     @NotNull
-    public Currency currency;
+    public String currency;
 
     @NotNull
     public String sourceAccountId;
@@ -23,7 +21,7 @@ public class Transfer {
 
     public Transfer() {}
 
-    public Transfer(BigDecimal amount, Currency currency, String sourceAccountId, String destinationAccountId) {
+    public Transfer(Double amount, String currency, String sourceAccountId, String destinationAccountId) {
         this.amount = amount;
         this.currency = currency;
         this.sourceAccountId = sourceAccountId;
@@ -31,12 +29,12 @@ public class Transfer {
     }
 
     @JsonProperty
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
     @JsonProperty
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 

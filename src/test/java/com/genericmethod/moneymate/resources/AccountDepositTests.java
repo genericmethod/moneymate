@@ -67,7 +67,7 @@ public class AccountDepositTests {
     }
 
     @Test
-    public void testAccountWithdrawWithZeroAmount() {
+    public void testAccountDepositWithZeroAmount() {
 
         final MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").getCurrencyCode());
@@ -79,9 +79,9 @@ public class AccountDepositTests {
     }
 
     @Test
-    public void testAccountWithdrawWithNegativeAmount() {
+    public void testAccountDepositWithNegativeAmount() {
 
-        final MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(-0.01).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+        final MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(-1.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").getCurrencyCode());
 
         final Response put = resources.client().target("/v1/accounts/vlad/deposit").request().put(Entity.json(moneyAmount));

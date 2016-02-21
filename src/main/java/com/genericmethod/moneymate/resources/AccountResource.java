@@ -74,7 +74,7 @@ public class AccountResource {
     @PUT
     @Timed
     @Path("/{username}/deposit")
-    public Account deposit(@PathParam("username") String username, MoneyAmount moneyAmount) {
+    public Account deposit(@PathParam("username") String username, @Valid MoneyAmount moneyAmount) {
 
         final Account account = accountDao.getUserAccount(username, moneyAmount.getCurrency());
 

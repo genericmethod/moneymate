@@ -66,7 +66,6 @@ public class AccountResourceTest {
     }
 
     @Test
-    @Ignore
     public void testGetAccountBalance() {
 
         MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
