@@ -13,7 +13,7 @@ public class AccountMapper implements ResultSetMapper<Account>{
         return new Account(resultSet.getInt("id"),
                 resultSet.getString("username"),
                 resultSet.getString("description"),
-                resultSet.getBigDecimal("balance"),
+                resultSet.getBigDecimal("balance").doubleValue(),
                 resultSet.getString("currency"));
     }
 }

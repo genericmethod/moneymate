@@ -18,7 +18,7 @@ public class AccountSerializationTest {
     public void serializesToJSON() throws Exception {
         final User user = new User(1, "vlad", "vlad@gmail.com");
         final Account account = new Account(1, "vlad", "description",
-                new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
+                new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").getCurrencyCode());
 
 
@@ -32,7 +32,7 @@ public class AccountSerializationTest {
     public void deserializesFromJSON() throws Exception {
         final User user = new User(1, "vlad", "vlad@gmail.com");
         final Account account = new Account(1, "vlad", "description",
-                new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
+                new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").getCurrencyCode());
 
         assertThat(MAPPER.readValue(fixture("fixtures/account.json"), Account.class))

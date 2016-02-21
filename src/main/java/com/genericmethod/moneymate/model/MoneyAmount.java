@@ -4,31 +4,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import java.math.BigDecimal;
-import java.util.Currency;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 public class MoneyAmount {
 
-    @NotEmpty
-    private BigDecimal amount;
+    @NotNull
+    @DecimalMin("0.01")
+    private Double amount;
 
     @NotEmpty
-    private Currency currency;
+    private String currency;
 
     public MoneyAmount(){}
 
-    public MoneyAmount(BigDecimal amount, Currency currency) {
+    public MoneyAmount(double amount, String currency) {
         this.amount = amount;
         this.currency = currency;
     }
 
     @JsonProperty
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
     @JsonProperty
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 

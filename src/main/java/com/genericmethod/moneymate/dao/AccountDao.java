@@ -29,6 +29,9 @@ public interface AccountDao {
     @SqlQuery("SELECT * FROM account WHERE username = :username")
     Account getUserAccount(@Bind("username") String username);
 
+    @SqlQuery("SELECT * FROM account WHERE username = :username AND currenct = :currency")
+    Account getUserAccount(@Bind("username") String username, @Bind("currency") String currency);
+
     @SqlUpdate("INSERT INTO account (username, description, currency, balance) " +
             "values (:a.username, :a.description, :a.currency, :a.balance)")
     int createAccount(@BindBean("a") Account account);
@@ -38,6 +41,9 @@ public interface AccountDao {
             " currency = :a.currency," +
             " balance = :a.balance WHERE id = :a.id")
     int updateAccount(@BindBean("a") Account account);
+
+    @SqlUpdate("UPDATE balance = :a.balance WHERE id = :a.id")
+    int updateBalance(@BindBean("a") double moneyAmount);
 
     @SqlUpdate("DELETE FROM account WHERE username = username")
     void deleteAccount(@Bind("username") String username);

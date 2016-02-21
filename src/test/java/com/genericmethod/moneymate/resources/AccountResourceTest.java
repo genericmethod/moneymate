@@ -29,12 +29,12 @@ public class AccountResourceTest {
     private final Account account1 = new Account(1,
             "vlad",
             "description",
-            new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY),
+            new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
             Currency.getInstance("EUR").getCurrencyCode());
 
     private final Account account2 = new Account(2, "nik",
             "description",
-            new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY),
+            new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
             Currency.getInstance("EUR").getCurrencyCode());
 
     @Before
@@ -67,10 +67,10 @@ public class AccountResourceTest {
 
     @Test
     @Ignore
-    public void testGetAccountBalance(){
+    public void testGetAccountBalance() {
 
-        MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
-                Currency.getInstance("EUR"));
+        MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
 
         assertThat(resources.client().target("/v1/accounts/1/balance").request().get(MoneyAmount.class))
                 .isEqualTo(moneyAmount);
@@ -82,12 +82,14 @@ public class AccountResourceTest {
 
         Account newAccount = new Account("vlad",
                 "description",
-                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY), Currency.getInstance("EUR").getCurrencyCode());
+                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
 
         Account savedAccount = new Account(1,
                 "vlad",
                 "description",
-                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY), Currency.getInstance("EUR").getCurrencyCode());
+                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
 
         when(accountDao.createAccount(newAccount)).thenReturn(1);
         when(accountDao.getAccount(1)).thenReturn(savedAccount);
@@ -104,7 +106,8 @@ public class AccountResourceTest {
 
         Account updatedAccount = new Account("vlad",
                 "description",
-                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY), Currency.getInstance("EUR").getCurrencyCode());
+                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
 
         when(accountDao.updateAccount(updatedAccount)).thenReturn(1);
         when(accountDao.getAccount(1)).thenReturn(updatedAccount);
@@ -124,36 +127,5 @@ public class AccountResourceTest {
                 .isEqualTo(204);
         verify(accountDao).deleteAccount("1");
     }
-
-    @Test
-    @Ignore
-    public void testAccountDeposit() {
-
-        final MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
-                Currency.getInstance("EUR"));
-
-        doNothing().doReturn(account1);
-
-        assertThat(resources.client().target("/v1/accounts/1/deposit").request().put(Entity.json(moneyAmount))
-                .readEntity(Account.class))
-                .isEqualTo(account1);
-
-    }
-
-    @Test
-    @Ignore
-    public void testAccountWithdrawal() {
-
-        final MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
-                Currency.getInstance("EUR"));
-
-        doNothing().doReturn(account1);
-
-        assertThat(resources.client().target("/v1/accounts/1/withdraw").request().put(Entity.json(moneyAmount))
-                .readEntity(Account.class))
-                .isEqualTo(account2);
-
-    }
-
 
 }

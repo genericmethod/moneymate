@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import java.math.BigDecimal;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 public class Account {
 
@@ -16,22 +17,23 @@ public class Account {
     @NotEmpty
     private String description;
 
-    @NotEmpty
-    private BigDecimal balance;
+    @NotNull
+    @DecimalMin("0.00")
+    private Double balance;
 
     @NotEmpty
     private String currency;
 
     public Account() {}
 
-    public Account(String username, String description, BigDecimal balance, String currency) {
+    public Account(String username, String description, Double balance, String currency) {
         this.username = username;
         this.description = description;
         this.balance = balance;
         this.currency = currency;
     }
 
-    public Account(int id, String username, String description, BigDecimal balance, String currency) {
+    public Account(int id, String username, String description, Double balance, String currency) {
         this.id = id;
         this.username = username;
         this.description = description;
@@ -55,7 +57,7 @@ public class Account {
     }
 
     @JsonProperty
-    public BigDecimal getBalance() {
+    public Double getBalance() {
         return balance;
     }
 

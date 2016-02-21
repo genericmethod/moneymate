@@ -16,8 +16,8 @@ public class MoneyAmountSerializationTest {
 
     @Test
     public void serializesToJSON() throws Exception {
-        final MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
-                Currency.getInstance("EUR"));
+        final MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
 
         final String expected = MAPPER.writeValueAsString(
                 MAPPER.readValue(fixture("fixtures/moneyamount.json"), MoneyAmount.class));
@@ -27,8 +27,8 @@ public class MoneyAmountSerializationTest {
 
     @Test
     public void deserializesFromJSON() throws Exception {
-        final MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
-                Currency.getInstance("EUR"));
+        final MoneyAmount moneyAmount = new MoneyAmount(new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
 
         assertThat(MAPPER.readValue(fixture("fixtures/moneyamount.json"), MoneyAmount.class))
                 .isEqualTo(moneyAmount);

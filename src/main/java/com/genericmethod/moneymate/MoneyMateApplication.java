@@ -13,8 +13,6 @@ import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Environment;
 import org.skife.jdbi.v2.DBI;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Currency;
 
 
@@ -39,11 +37,11 @@ public class MoneyMateApplication extends Application<MoneyMateConfiguration> {
         userDao.createUser(new User("mark","mark@gmail.com"));
 
         accountDao.createAccount(new Account("chris","salary account",
-                new BigDecimal(888.00).setScale(2, RoundingMode.UNNECESSARY),
+                888.00,
                 Currency.getInstance("EUR").getCurrencyCode()));
 
         accountDao.createAccount(new Account("mark","salary account",
-                new BigDecimal(999.00).setScale(2, RoundingMode.UNNECESSARY),
+                888.00,
                 Currency.getInstance("EUR").getCurrencyCode()));
 
         UserResource userResource = new UserResource(userDao, accountDao);
