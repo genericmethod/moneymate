@@ -5,7 +5,7 @@ MoneyMate - A Rest API for money transfers between internal users and accounts
 
 #### Account Resources
 
-- GET     /v1/accounts
+##GET     /v1/accounts
 
 ##### Example
 
@@ -33,7 +33,7 @@ GET /v1/accounts
 ]
 ```
 
-- POST    /v1/accounts
+## POST    /v1/accounts
 
 ##### Example
 
@@ -63,7 +63,7 @@ Body
 }
 ```
 
-- GET     /v1/accounts/{id}
+## GET     /v1/accounts/{id}
 
 ##### Example
 ###### Request
@@ -81,7 +81,7 @@ GET /v1/accounts/1
 }
 ```
 
-- PUT     /v1/accounts/{id}
+## PUT     /v1/accounts/{id}
 
 ##### Example
 
@@ -112,7 +112,7 @@ Body
 }
 ```
 
-- GET     /v1/accounts/{id}/balance
+## GET     /v1/accounts/{id}/balance
 
 ##### Example
 
@@ -129,7 +129,7 @@ GET /v1/accounts/1/balance
 }
 ```
 
-- DELETE  /v1/accounts/{username}
+## DELETE  /v1/accounts/{username}
 
 ##### Example
 ###### Request
@@ -140,7 +140,7 @@ DELETE  /v1/accounts/vlad
 
 STATUS 204 OK
 
-- PUT     /v1/accounts/{username}/withdraw
+## PUT     /v1/accounts/{username}/withdraw
 
 ##### Example
 
@@ -167,9 +167,7 @@ Body
 }
 ```
 
-
-
-- PUT     /v1/accounts/{username}/deposit
+## PUT     /v1/accounts/{username}/deposit
 
 ##### Example
 
@@ -199,37 +197,37 @@ Body
 
 #### User Resources
 
-- GET     /v1/users
+## GET     /v1/users
 
 ##### Example
 ###### Request
 ###### Response
 
-- POST    /v1/users
+## POST    /v1/users
 
 ##### Example
 ###### Request
 ###### Response
 
-- DELETE  /v1/users/{id}
+## DELETE  /v1/users/{id}
 
 ##### Example
 ###### Request
 ###### Response
 
-- PUT     /v1/users/{id}
+## PUT     /v1/users/{id}
 
 ##### Example
 ###### Request
 ###### Response
 
-- GET     /v1/users/{username}
+## GET     /v1/users/{username}
 
 ##### Example
 ###### Request
 ###### Response
 
-- GET     /v1/users/{username}/account
+## GET     /v1/users/{username}/account
 
 ##### Example
 ###### Request
@@ -238,7 +236,7 @@ Body
 
 #### Transferring Money
 
-- POST    /v1/transfers
+## POST    /v1/transfers
 
 ##### Example
 ###### Request
