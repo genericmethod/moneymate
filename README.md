@@ -3,7 +3,7 @@ MoneyMate - A Rest API for money transfers between internal users and accounts
 
 # Endpoints
 
-#### Account Resources
+## Account Resources
 
 ##GET     /v1/accounts
 
@@ -195,19 +195,57 @@ Body
 ```
 
 
-#### User Resources
+## User Resources
 
-## GET     /v1/users
+## GET /v1/users
 
 ##### Example
 ###### Request
+
+GET /v1/users
+
 ###### Response
+
+```
+[
+  {
+    "id": 1,
+    "username": "vlad",
+    "email": "vlad@gmail.com"
+  },
+  {
+    "id": 2,
+    "username": "nik",
+    "email": "nik@gmail.com"
+  }
+]
+```
 
 ## POST    /v1/users
 
 ##### Example
 ###### Request
+
+POST /v1/users
+
+Body
+
+```
+ {
+    "username": "nik",
+    "email": "nik@gmail.com"
+ }
+```
+
 ###### Response
+
+```
+ {
+     "id": 2,
+     "username": "nik",
+     "email": "nik@gmail.com"
+   }
+```
 
 ## DELETE  /v1/users/{id}
 
