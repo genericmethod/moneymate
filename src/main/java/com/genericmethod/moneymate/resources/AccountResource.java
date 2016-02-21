@@ -22,7 +22,7 @@ public class AccountResource {
     @GET
     @Timed
     @Path("/{id}")
-    public Account getAccount(@PathParam("id") String id) {
+    public Account getAccount(@PathParam("id") int id) {
         return accountDao.getAccount(id);
     }
 
@@ -42,21 +42,23 @@ public class AccountResource {
     @POST
     @Timed
     public Account createAccount(Account account) {
-        return accountDao.createAccount(account);
+        final int accountId = accountDao.createAccount(account);
+        return accountDao.getAccount(accountId);
     }
 
     @PUT
     @Timed
     @Path("/{id}")
-    public Account updateAccount(@PathParam("id") String id, Account account) {
-        return accountDao.updateAccount(account);
+    public Account updateAccount(@PathParam("id") Integer id, Account account) {
+        final int accountId = accountDao.updateAccount(account);
+        return accountDao.getAccount(accountId);
     }
 
     @DELETE
     @Timed
-    @Path("/{id}")
-    public void deleteAccount(@PathParam("id") String id) {
-        accountDao.deleteAccount(id);
+    @Path("/{username}")
+    public void deleteAccount(@PathParam("username") String username) {
+        accountDao.deleteAccount(username);
     }
 
     @PUT

@@ -17,9 +17,9 @@ public class AccountSerializationTest {
     @Test
     public void serializesToJSON() throws Exception {
         final User user = new User(1, "vlad", "vlad@gmail.com");
-        final Account account = new Account("1", "vlad", "description",
+        final Account account = new Account(1, "vlad", "description",
                 new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
-                Currency.getInstance("EUR"));
+                Currency.getInstance("EUR").getCurrencyCode());
 
 
         final String expected = MAPPER.writeValueAsString(
@@ -31,9 +31,9 @@ public class AccountSerializationTest {
     @Test
     public void deserializesFromJSON() throws Exception {
         final User user = new User(1, "vlad", "vlad@gmail.com");
-        final Account account = new Account("1", "vlad", "description",
+        final Account account = new Account(1, "vlad", "description",
                 new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
-                Currency.getInstance("EUR"));
+                Currency.getInstance("EUR").getCurrencyCode());
 
         assertThat(MAPPER.readValue(fixture("fixtures/account.json"), Account.class))
                 .isEqualTo(account);

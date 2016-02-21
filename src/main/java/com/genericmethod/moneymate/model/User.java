@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class User {
 
-    private Integer id;
+    private int id;
 
     @NotEmpty
     private String username;
@@ -21,14 +21,14 @@ public class User {
         this.email = email;
     }
 
-    public User(Integer id, String username, String email) {
+    public User(int id, String username, String email) {
         this.id = id;
         this.username = username;
         this.email = email;
     }
 
     @JsonProperty
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

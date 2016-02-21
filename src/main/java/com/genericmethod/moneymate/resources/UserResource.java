@@ -46,14 +46,16 @@ public class UserResource {
     @POST
     @Timed
     public User create(@Valid User user) {
-        return userDao.createUser(user);
+        final int userId = userDao.createUser(user);
+        return userDao.getUserById(userId);
     }
 
     @PUT
     @Timed
     @Path("/{id}")
-    public User update(@PathParam("id") String id, @Valid User user) {
-        return userDao.updateUser(user);
+    public User update(@PathParam("id") Integer id, @Valid User user) {
+        final int userId = userDao.updateUser(user);
+        return userDao.getUserById(userId);
     }
 
     @DELETE

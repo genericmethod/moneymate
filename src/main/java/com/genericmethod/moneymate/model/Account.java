@@ -5,12 +5,10 @@ import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.math.BigDecimal;
-import java.util.Currency;
-import java.util.UUID;
 
 public class Account {
 
-    private String id;
+    private int id;
 
     @NotEmpty
     private String username;
@@ -22,19 +20,18 @@ public class Account {
     private BigDecimal balance;
 
     @NotEmpty
-    private Currency currency;
+    private String currency;
 
     public Account() {}
 
-    public Account(String username, String description, BigDecimal balance, Currency currency) {
-        this.id = UUID.randomUUID().toString();
+    public Account(String username, String description, BigDecimal balance, String currency) {
         this.username = username;
         this.description = description;
         this.balance = balance;
         this.currency = currency;
     }
 
-    public Account(String id, String username, String description, BigDecimal balance, Currency currency) {
+    public Account(int id, String username, String description, BigDecimal balance, String currency) {
         this.id = id;
         this.username = username;
         this.description = description;
@@ -43,7 +40,7 @@ public class Account {
     }
 
     @JsonProperty
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -63,7 +60,7 @@ public class Account {
     }
 
     @JsonProperty
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 

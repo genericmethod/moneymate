@@ -26,8 +26,16 @@ public class AccountResourceTest {
             .addResource(new AccountResource(accountDao))
             .build();
 
-    private final Account account1 = new Account("1", "vlad", "description", new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY), Currency.getInstance("EUR"));
-    private final Account account2 = new Account("2", "nik", "description", new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY), Currency.getInstance("EUR"));
+    private final Account account1 = new Account(1,
+            "vlad",
+            "description",
+            new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY),
+            Currency.getInstance("EUR").getCurrencyCode());
+
+    private final Account account2 = new Account(2, "nik",
+            "description",
+            new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY),
+            Currency.getInstance("EUR").getCurrencyCode());
 
     @Before
     public void setup() {
@@ -40,10 +48,10 @@ public class AccountResourceTest {
 
     @Test
     public void testGetAccount() {
-        when(accountDao.getAccount(eq("1"))).thenReturn(account1);
+        when(accountDao.getAccount(eq(1))).thenReturn(account1);
         assertThat(resources.client().target("/v1/accounts/1").request().get(Account.class))
                 .isEqualTo(account1);
-        verify(accountDao).getAccount("1");
+        verify(accountDao).getAccount(1);
     }
 
     @Test
@@ -74,14 +82,16 @@ public class AccountResourceTest {
 
         Account newAccount = new Account("vlad",
                 "description",
-                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY), Currency.getInstance("EUR"));
+                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY), Currency.getInstance("EUR").getCurrencyCode());
 
-        Account savedAccount = new Account("1",
+        Account savedAccount = new Account(1,
                 "vlad",
                 "description",
-                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY), Currency.getInstance("EUR"));
+                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY), Currency.getInstance("EUR").getCurrencyCode());
 
-        when(accountDao.createAccount(newAccount)).thenReturn(savedAccount);
+        when(accountDao.createAccount(newAccount)).thenReturn(1);
+        when(accountDao.getAccount(1)).thenReturn(savedAccount);
+
         assertThat(resources.client().target("/v1/accounts").request().post(Entity.json(newAccount))
                 .readEntity(Account.class))
                 .isEqualTo(savedAccount);
@@ -94,9 +104,10 @@ public class AccountResourceTest {
 
         Account updatedAccount = new Account("vlad",
                 "description",
-                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY), Currency.getInstance("EUR"));
+                new BigDecimal(123.00).setScale(2, RoundingMode.UNNECESSARY), Currency.getInstance("EUR").getCurrencyCode());
 
-        when(accountDao.updateAccount(updatedAccount)).thenReturn(updatedAccount);
+        when(accountDao.updateAccount(updatedAccount)).thenReturn(1);
+        when(accountDao.getAccount(1)).thenReturn(updatedAccount);
 
         assertThat(resources.client().target("/v1/accounts/1").request().put(Entity.json(updatedAccount))
                 .readEntity(Account.class))

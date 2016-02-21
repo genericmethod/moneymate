@@ -64,11 +64,11 @@ public class UserResourceTest {
     @Test
     public void testGetUserAccount(){
 
-        Account account = new Account("1",
+        Account account = new Account(1,
                 "vlad",
                 "Vlad's Account",
                 new BigDecimal(123.00).setScale(2, BigDecimal.ROUND_UNNECESSARY),
-                Currency.getInstance("EUR"));
+                Currency.getInstance("EUR").getCurrencyCode());
 
         when(accountDao.getUserAccount("vlad")).thenReturn(account);
 
@@ -82,7 +82,8 @@ public class UserResourceTest {
         User newUser = new User("vlad","cfarrugia@gmail.com");
         User savedUser = new User(1,"vlad","vlad@gmail.com");
 
-        when(userDao.createUser(newUser)).thenReturn(savedUser);
+        when(userDao.createUser(newUser)).thenReturn(1);
+        when(userDao.getUserById(1)).thenReturn(savedUser);
         assertThat(resources.client().target("/v1/users").request().post(Entity.json(newUser))
                 .readEntity(User.class))
                 .isEqualTo(savedUser);
@@ -93,8 +94,8 @@ public class UserResourceTest {
     public void testUpdateUser() {
 
         User userToUpdate = new User(1,"vlad", "vlad@gmail.com");
-        when(userDao.updateUser(userToUpdate)).thenReturn(userToUpdate);
-
+        when(userDao.updateUser(userToUpdate)).thenReturn(1);
+        when(userDao.getUserById(1)).thenReturn(userToUpdate);
         assertThat(resources.client().target("/v1/users/1").request().put(Entity.json(userToUpdate))
                 .readEntity(User.class))
                 .isEqualTo(userToUpdate);
