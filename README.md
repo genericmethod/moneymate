@@ -3,6 +3,7 @@ MoneyMate - A Rest API for money transfers between internal users and accounts
 
 # Endpoints
 
+```
 - GET     /v1/users
 - POST    /v1/users
 - DELETE  /v1/users/{id}
@@ -18,7 +19,7 @@ MoneyMate - A Rest API for money transfers between internal users and accounts
 - PUT     /v1/accounts/{username}/deposit
 - PUT     /v1/accounts/{username}/withdraw
 - POST    /v1/transfers
-
+```
 
 ## Account Resources
 
