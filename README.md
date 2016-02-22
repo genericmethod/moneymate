@@ -426,6 +426,7 @@ STATUS 204
 - Implement versioning using headers as well apart from path
 - Further inline documentation / info logs
 - API Health checks
+- Use a money library to handle monetary values - joda-money / java-money
 
 
 
