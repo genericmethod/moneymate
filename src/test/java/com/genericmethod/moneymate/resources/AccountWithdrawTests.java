@@ -1,6 +1,7 @@
 package com.genericmethod.moneymate.resources;
 
 import com.genericmethod.moneymate.dao.AccountDao;
+import com.genericmethod.moneymate.enums.HttpStatus;
 import com.genericmethod.moneymate.model.Account;
 import com.genericmethod.moneymate.model.MoneyAmount;
 import io.dropwizard.jersey.validation.ValidationErrorMessage;
@@ -87,7 +88,7 @@ public class AccountWithdrawTests {
 
         when(accountDao.getUserAccountForUpdate("vlad", "EUR")).thenReturn(account);
         Response put = resources.client().target("/v1/accounts/vlad/withdraw").request().put(Entity.json(moneyAmount));
-        assertThat(put.getStatus()).isEqualTo(417);
+        assertThat(put.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.getCode());
     }
 
     @Test

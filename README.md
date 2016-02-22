@@ -2,7 +2,8 @@
 
 # moneymate
 MoneyMate - A Rest API for money transfers between internal users and accounts.
-Built in Java and Dropwizard. No Spring libraries were used / abused.
+Built in Java 8 / Dropwizard / JDBI / H2 (in memory).
+No Spring libraries were used / abused.
 
 ## Usage
 
@@ -20,23 +21,31 @@ java -jar target/moneymate-api-1.0.0-SNAPSHOT.jar server money-mate.yml
 # Endpoints
 
 ```
-- GET     /v1/users
-- POST    /v1/users
-- DELETE  /v1/users/{id}
-- PUT     /v1/users/{id}
-- GET     /v1/users/{username}
-- GET     /v1/users/{username}/account
-- GET     /v1/accounts
-- POST    /v1/accounts
-- GET     /v1/accounts/{id}
-- PUT     /v1/accounts/{id}
-- GET     /v1/accounts/{id}/balance
-- DELETE  /v1/accounts/{username}
-- PUT     /v1/accounts/{username}/deposit
-- PUT     /v1/accounts/{username}/withdraw
-- POST    /v1/transfers
+- GET     /v1/users - get all users
+- POST    /v1/users - create a user
+- DELETE  /v1/users/{id} - delete a user by his id
+- PUT     /v1/users/{id} - update a user
+- GET     /v1/users/{username} - get a user by username
+- GET     /v1/users/{username}/account - get a user account
+- GET     /v1/accounts - get all accounts
+- POST    /v1/accounts - add an account
+- GET     /v1/accounts/{id} - get an account by id
+- PUT     /v1/accounts/{id} - update an account
+- GET     /v1/accounts/{id}/balance - get account balance
+- DELETE  /v1/accounts/{username} - delete an account by username
+- PUT     /v1/accounts/{username}/deposit - deposit money into an account
+- PUT     /v1/accounts/{username}/withdraw - withdraw money from an account
+- POST    /v1/transfers - transfer money between accounts
 ```
 
+## Http Status Code Summary
+
+```
+200 OK - Everything worked as expected
+204 No Content - Everything worked as expected and not additional content was sent back
+422 Unprocessable Entity - The request might have missing / incorrect parameters or failed certain conditions
+404 Not Found - The requested resource does not exist
+```
 
 ## Account Resources
 
@@ -408,6 +417,13 @@ Body
 ###### Response
 
 STATUS 204
+
+## Next Steps
+
+- Store transactions for each withdraw / deposit / transfer
+- Enrich documentation
+- Add further database constraints
+- Implement versioning using headers as well apart from path
 
 
 

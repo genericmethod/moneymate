@@ -38,6 +38,7 @@ public interface AccountDao {
     @SqlUpdate("INSERT INTO account (username, description, currency, balance) " +
             "values (:a.username, :a.description, :a.currency, :a.balance)")
     @GetGeneratedKeys
+    @Transaction
     int createAccount(@BindBean("a") Account account);
 
     @SqlUpdate("UPDATE account SET username = :a.username," +

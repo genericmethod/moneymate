@@ -1,6 +1,7 @@
 package com.genericmethod.moneymate.resources;
 
 import com.genericmethod.moneymate.dao.AccountDao;
+import com.genericmethod.moneymate.enums.HttpStatus;
 import com.genericmethod.moneymate.model.Account;
 import com.genericmethod.moneymate.model.MoneyAmount;
 import io.dropwizard.testing.junit.ResourceTestRule;
@@ -89,7 +90,7 @@ public class AccountResourceTest {
         try{
             resources.client().target("/v1/accounts/1/balance").request().get(MoneyAmount.class);
         } catch (WebApplicationException webEx) {
-            assertThat(webEx.getResponse().getStatus()).isEqualTo(404);
+            assertThat(webEx.getResponse().getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.getCode());
         }
     }
 

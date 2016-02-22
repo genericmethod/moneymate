@@ -2,16 +2,21 @@ package com.genericmethod.moneymate.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
 
 public class User {
 
     private int id;
 
     @NotEmpty
+    @Size(min = 4, max = 25)
     private String username;
 
     @NotEmpty
+    @Email
     private String email;
 
     public User() {}

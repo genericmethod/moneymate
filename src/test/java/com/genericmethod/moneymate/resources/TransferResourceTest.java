@@ -2,6 +2,7 @@ package com.genericmethod.moneymate.resources;
 
 import com.genericmethod.moneymate.dao.AccountDao;
 import com.genericmethod.moneymate.dao.UserDao;
+import com.genericmethod.moneymate.enums.HttpStatus;
 import com.genericmethod.moneymate.model.Account;
 import com.genericmethod.moneymate.model.Transfer;
 import io.dropwizard.jersey.validation.ValidationErrorMessage;
@@ -47,7 +48,6 @@ public class TransferResourceTest {
                 sourceAccountId,
                 destinationAccountId);
 
-
         Account sourceAccount = new Account(1, "vlad",
                 "description",
                 new BigDecimal(100.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
@@ -79,6 +79,107 @@ public class TransferResourceTest {
     }
 
     @Test
+    public void testTransferAmountGreaterThanSourceAmount() {
+
+        Integer sourceAccountId = 1;
+        Integer destinationAccountId = 2;
+        Transfer transfer = new Transfer(new BigDecimal(1000).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode(),
+                sourceAccountId,
+                destinationAccountId);
+
+
+        Account sourceAccount = new Account(1, "vlad",
+                "description",
+                new BigDecimal(100.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
+
+        Account destinationAccount = new Account(2, "nik",
+                "description",
+                new BigDecimal(0.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
+
+        when(accountDao.getAccountForUpdate(sourceAccountId)).thenReturn(sourceAccount);
+        when(accountDao.getAccountForUpdate(destinationAccountId)).thenReturn(destinationAccount);
+
+        final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));
+        assertThat(post.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.getCode());
+
+    }
+
+    @Test
+    public void testTransferCurrencyAndSourceAccountCurrencyDoNotMatch() {
+
+        Integer sourceAccountId = 1;
+        Integer destinationAccountId = 2;
+        Transfer transfer = new Transfer(new BigDecimal(10).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+                Currency.getInstance("USD").getCurrencyCode(),
+                sourceAccountId,
+                destinationAccountId);
+
+
+        Account sourceAccount = new Account(1, "vlad",
+                "description",
+                new BigDecimal(100.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
+
+        Account destinationAccount = new Account(2, "nik",
+                "description",
+                new BigDecimal(0.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
+
+        when(accountDao.getAccountForUpdate(sourceAccountId)).thenReturn(sourceAccount);
+        when(accountDao.getAccountForUpdate(destinationAccountId)).thenReturn(destinationAccount);
+
+        final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));
+        assertThat(post.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.getCode());
+    }
+
+    @Test
+    public void testTransferDestinationCurrencyAndSourceAccountCurrencyDoNotMatch() {
+
+        Integer sourceAccountId = 1;
+        Integer destinationAccountId = 2;
+        Transfer transfer = new Transfer(new BigDecimal(10).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode(),
+                sourceAccountId,
+                destinationAccountId);
+
+
+        Account sourceAccount = new Account(1, "vlad",
+                "description",
+                new BigDecimal(100.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode());
+
+        Account destinationAccount = new Account(2, "nik",
+                "description",
+                new BigDecimal(0.00).setScale(2, RoundingMode.UNNECESSARY).doubleValue(),
+                Currency.getInstance("USD").getCurrencyCode());
+
+        when(accountDao.getAccountForUpdate(sourceAccountId)).thenReturn(sourceAccount);
+        when(accountDao.getAccountForUpdate(destinationAccountId)).thenReturn(destinationAccount);
+
+        final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));
+        assertThat(post.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.getCode());
+    }
+
+    @Test
+    public void testTransferSameSourceAccountAndDestinationAccount() {
+
+        Integer sourceAccountId = 1;
+        Integer destinationAccountId = 1;
+        Transfer transfer = new Transfer(new BigDecimal(10).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
+                Currency.getInstance("EUR").getCurrencyCode(),
+                sourceAccountId,
+                destinationAccountId);
+
+        final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));
+        assertThat(post.getStatus()).isEqualTo(422);
+        ValidationErrorMessage msg = post.readEntity(ValidationErrorMessage.class);
+        assertThat(msg.getErrors()).containsOnly("source account cannot be the same as destination account");
+    }
+
+    @Test
     public void testTransferSourceAccountDoesNotExist() {
 
         Integer sourceAccountId = 1;
@@ -97,7 +198,7 @@ public class TransferResourceTest {
         when(accountDao.getAccountForUpdate(destinationAccountId)).thenReturn(destinationAccount);
 
         final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));
-        assertThat(post.getStatus()).isEqualTo(404);
+        assertThat(post.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.getCode());
 
     }
 
@@ -120,12 +221,15 @@ public class TransferResourceTest {
         when(accountDao.getAccountForUpdate(destinationAccountId)).thenReturn(null);
 
         final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));
-        assertThat(post.getStatus()).isEqualTo(404);
-
+        assertThat(post.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.getCode());
     }
 
+
+
+
+
     @Test
-    public void testTransferMissingSourceAccount() {
+    public void testTransferMissingSourceAccountId() {
         Transfer transfer = new Transfer(new BigDecimal(123).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").getCurrencyCode(), null, 2);
         final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));
@@ -135,7 +239,7 @@ public class TransferResourceTest {
     }
 
     @Test
-    public void testTransferMissingDestinationAccount() {
+    public void testTransferMissingDestinationAccountId() {
         Transfer transfer = new Transfer(new BigDecimal(123).setScale(2, BigDecimal.ROUND_UNNECESSARY).doubleValue(),
                 Currency.getInstance("EUR").getCurrencyCode(), 1, null);
         final Response post = resources.client().target("/v1/transfers").request().post(Entity.json(transfer));

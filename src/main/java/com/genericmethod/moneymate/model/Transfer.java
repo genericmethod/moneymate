@@ -3,24 +3,28 @@ package com.genericmethod.moneymate.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import io.dropwizard.validation.OneOf;
 import io.dropwizard.validation.ValidationMethod;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 public class Transfer {
 
     @NotNull
-    public Double amount;
+    @DecimalMin("0.01")
+    private Double amount;
 
     @NotBlank
-    public String currency;
+    @OneOf({"EUR","USD"})
+    private String currency;
 
     @NotNull
-    public Integer sourceAccountId;
+    private Integer sourceAccountId;
 
     @NotNull
-    public Integer destinationAccountId;
+    private Integer destinationAccountId;
 
     public Transfer() {}
 

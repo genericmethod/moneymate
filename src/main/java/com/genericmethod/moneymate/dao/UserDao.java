@@ -26,6 +26,7 @@ public interface UserDao {
 
     @SqlUpdate("INSERT INTO user (username, email) VALUES (:u.username, :u.email)")
     @GetGeneratedKeys
+    @Transaction
     int createUser(@BindBean("u") User user);
 
     @SqlUpdate("UPDATE user SET username = :u.username, email = :u.email WHERE id = :u.id")
