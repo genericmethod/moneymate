@@ -1,8 +1,14 @@
 ![](http://emojipedia-us.s3.amazonaws.com/cache/1d/fb/1dfbe0d37cfc48f81fcc7b5ffbcf4879.png)
 
 # moneymate
-MoneyMate - A Rest API for money transfers between internal users and accounts.
-Built in Java 8 / Dropwizard / JDBI / H2 (in memory).
+MoneyMate - A demo RESTful API for money transfers between internal users and accounts.
+
+## Stack
+- Java 8
+- Dropwizard
+- JDBI
+- H2 (in memory).
+
 No Spring libraries were used / abused.
 
 ## Usage
@@ -60,7 +66,7 @@ GET /v1/accounts
 ```
 
 ##### Response
-```
+```json
 [
   {
     "id": 1,
@@ -90,8 +96,7 @@ POST /v1/accounts
 ```
 
 Body
-
-```
+```json
 {
   "username":"vlad",
   "description":"description",
@@ -102,7 +107,7 @@ Body
 
 ###### Response
 
-```
+```json
 {
   "username":"vlad",
   "description":"description",
@@ -122,7 +127,7 @@ GET /v1/accounts/1
 
 ###### Response
 
-```
+```json
 {
   "username":"vlad",
   "description":"description",
@@ -142,7 +147,7 @@ PUT /v1/accounts/{id}
 ```
 
 Body
-```
+```json
 {
   "id":1,
   "username":"vlad",
@@ -154,7 +159,7 @@ Body
 
 ###### Response
 
-```
+```json
 {
   "id":1,
   "username":"vlad",
@@ -176,7 +181,7 @@ GET /v1/accounts/1/balance
 
 ###### Response
 
-```
+```json
 {
   "amount": 123,
   "currency": "EUR"
@@ -207,7 +212,7 @@ PUT /v1/accounts/vlad/withdraw
 ```
 
 Body
-```
+```json
 {
   "amount": 10,
   "currency": "EUR"
@@ -215,7 +220,7 @@ Body
 ```
 ###### Response
 
-```
+```json
 {
   "id": 1,
   "username": "vlad",
@@ -236,7 +241,7 @@ PUT /v1/accounts/vlad/deposit
 ```
 
 Body
-```
+```json
 {
   "amount": 10,
   "currency": "EUR"
@@ -244,7 +249,7 @@ Body
 ```
 ###### Response
 
-```
+```json
 {
   "id": 2,
   "username": "mark",
@@ -268,7 +273,7 @@ GET /v1/users
 
 ###### Response
 
-```
+```json
 [
   {
     "id": 1,
@@ -293,7 +298,7 @@ POST /v1/users
 ```
 
 Body
-```
+```json
  {
     "username": "nik",
     "email": "nik@gmail.com"
@@ -302,7 +307,7 @@ Body
 
 ###### Response
 
-```
+```json
  {
      "id": 2,
      "username": "nik",
@@ -333,7 +338,7 @@ PUT /v1/users/2
 ```
 
 Body
-```
+```json
  {
     "id": 2,
     "username": "nik",
@@ -343,7 +348,7 @@ Body
 
 ###### Response
 
-```
+```json
  {
     "id": 2,
     "username": "nik",
@@ -363,7 +368,7 @@ GET /v1/users/vlad
 
 ###### Response
 
-```
+```json
 {
   "id": 1,
   "username": "vlad",
@@ -382,7 +387,7 @@ GET /v1/users/vlad/account
 
 ###### Response
 
-```
+```json
 {
   "id": 1,
   "username": "vlad",
