@@ -1,4 +1,4 @@
-![](http://emojipedia-us.s3.amazonaws.com/cache/1d/fb/1dfbe0d37cfc48f81fcc7b5ffbcf4879.png)
+![](https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/129/money-mouth-face_1f911.png)
 
 # moneymate
 MoneyMate - A Rest API for money transfers between internal users and accounts.
