@@ -2,21 +2,37 @@
 
 # moneymate
 MoneyMate - A Rest API for money transfers between internal users and accounts.
-Built in Java 8 / Dropwizard / JDBI / H2 (in memory).
-No Spring libraries were used / abused.
+- Built in Java 8 / Dropwizard / JDBI / H2 (in memory).
+- No Spring libraries were used / abused.
+- Requires Maven
 
 ## Usage
 
+Clone this git repository
 ```
 git clone https://github.com/genericmethod/moneymate.git
 ```
+
+Navigate to the working directory
+
+```
+cd moneymate
+```
+
+Build the jar
 ```
 mvn package
 ```
+
+Execute the jar
 ```
 java -jar target/moneymate-api-1.0.0-SNAPSHOT.jar server money-mate.yml
 ```
 
+Execute the above in a using a single command
+```
+git clone https://github.com/genericmethod/moneymate.git && cd moneymate && mvn package && java -jar target/moneymate-api-1.0.0-SNAPSHOT.jar server money-mate.yml
+```
 
 # Endpoints
 
@@ -427,6 +443,10 @@ STATUS 204
 - Further inline documentation / info logs
 - API Health checks
 - Use a money library to handle monetary values - joda-money / java-money
+- Use Wiremock and Rest-Assured for integration testing
+
+In retrospect could have used a smaller framework such as SparkJava
+
 
 
 
