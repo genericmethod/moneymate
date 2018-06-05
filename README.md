@@ -34,6 +34,8 @@ Execute the above in a using a single command
 git clone https://github.com/genericmethod/moneymate.git && cd moneymate && mvn package && java -jar target/moneymate-api-1.0.0-SNAPSHOT.jar server money-mate.yml
 ```
 
+Server starts on port 8080
+
 # Endpoints
 
 ```
